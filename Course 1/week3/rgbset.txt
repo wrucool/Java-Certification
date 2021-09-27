@@ -1,0 +1,32 @@
+// write your code here
+
+var image=new SimpleImage("hilton.jpg");
+
+for(var pixel of image.values())
+
+{
+    if(pixel.getX() <= 46.6)
+ 
+   {
+        
+pixel.setRed(255);
+   
+ }
+     
+if(pixel.getX()> 46.6 && pixel.getX()<=93.4)
+    {
+        
+pixel.setGreen(255);
+   
+ }
+    
+ if(pixel.getX()>93.4 && pixel.getX()<=140)
+    {
+       
+ pixel.setBlue(255);
+ 
+   }
+
+}
+
+print(image);

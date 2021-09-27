@@ -1,0 +1,37 @@
+// border frame using a function
+function setBlack(px)
+{
+    px.setRed(0);
+    px.setGreen(0);
+    px.setBlue(0);
+    return px;
+}
+var image = new SimpleImage("lion.jpg");
+var wth=image.getWidth();
+var ht=image.getHeight();
+ for (var pixel of image.values()) 
+ {
+    var x = pixel.getX();
+    var y = pixel.getY();
+    
+    
+    if (x < 10 || y<10 || x>=(wth-10) || y>=(ht-10))
+    {
+        pixel = setBlack(pixel);
+        
+    } 
+    
+    if (x < 50 && x>40 || y<50 && y>40 || x>=(wth-50) && x<=wth-40 || y>=(ht-50) && y<=ht-40)
+    {
+        pixel = setBlack(pixel);
+        
+    } 
+ if (x < 100 && x>90 || y<100 && y>90 || x>=(wth-100) && x<=wth-90 || y>=(ht-100) && y<=ht-90)
+    {
+        pixel = setBlack(pixel);
+        
+    } 
+
+ }     
+
+print(image);

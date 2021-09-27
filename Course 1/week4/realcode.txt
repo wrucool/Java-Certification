@@ -1,0 +1,130 @@
+// write your code here
+function crop(image, width, height) {
+    var cropped = new SimpleImage(width, height);
+    var px;
+    for (var pix of cropped.values()) {
+        x = pix.getX();
+        y = pix.getY();
+        px = image.getPixel(x, y);
+        pix.setRed(px.getRed());
+        pix.setGreen(px.getGreen());
+        pix.setBlue(px.getBlue());
+    }
+    return cropped;
+}
+function pixchange(pixval) {
+    var x = Math.floor(pixval/4) * 4;
+    return x;
+}
+function chop2hide(image) {
+// Zero out the lower four bits of each pixel color, 
+// before putting the higher four bits of the hidden image there:
+    for (var px of image.values()) {
+        px.setRed(pixchange(px.getRed()));
+        px.setGreen(pixchange(px.getGreen()));
+        px.setBlue(pixchange(px.getBlue()));
+    }
+    return image;
+}
+function shift(im) {
+// Overwrite the lower two bits of each pixel color
+// by the upper two bits and zero the upper six:
+    var nim = new SimpleImage(im.getWidth(), im.getHeight());
+    for (var px of im.values()) {
+        var x = px.getX();
+        var y = px.getY();
+        var npx = nim.getPixel(x, y);
+        npx.setRed(Math.floor(px.getRed()/64));
+        npx.setGreen(Math.floor(px.getGreen()/64));
+        npx.setBlue(Math.floor(px.getBlue()/64));
+    }
+    return nim;
+}
+function newpv(p, q) {
+    var pv = p + q;
+    if (pv > 255) {
+        print("ERROR: new pv > 255 ");
+        return 255;
+    }
+    return pv;
+}
+function combine(image1, image2) {
+    // Add image2 to image1, by each pixel color:
+    var w = image1.getWidth();
+    var h = image1.getHeight();
+    var newIm = new SimpleImage(w, h);
+    for (px of newIm.values()) {
+        x = px.getX();
+        y = px.getY();
+        var px1 = image1.getPixel(x,y);
+        var px2 = image2.getPixel(x,y);
+        px.setRed(newpv(px1.getRed(), px2.getRed()));
+        px.setGreen(newpv(px1.getGreen(), px2.getGreen()));
+        px.setBlue(newpv(px1.getBlue(), px2.getBlue()));
+    }
+    return newIm;
+}
+function extract(image) {
+    // Generate hidden image from lower four bits of each pixel olor:
+    
+    for (var pix of image.values()) {
+        x = pix.getX();
+        y = pix.getY();
+        var hidcolor = (pix.getRed() - Math.floor(pix.getRed()/4) *4) * 64;
+        pix.setRed(hidcolor);
+        hidcolor = (pix.getGreen() - Math.floor(pix.getGreen()/4) *4) * 64;
+        pix.setGreen(hidcolor);
+        hidcolor = (pix.getBlue() - Math.floor(pix.getBlue()/4) *4) * 64;
+        pix.setBlue(hidcolor);
+    }
+    return image;
+}
+
+var start = new SimpleImage("smalllion.jpg");
+var hide = new SimpleImage("message.png");
+print("Hiding and hidden images:");
+print(start);
+print(hide);
+
+var startW = start.getWidth();
+var startH = start.getHeight();
+var hideW = hide.getWidth();
+var hideH = hide.getHeight();
+// Crop both images to the size of the smaller of each dimension:
+var minW = hideW;
+if (startW < hideW) {
+    minW = startW;
+}
+var minH = hideH;
+if (startH < hideH) {
+    minH = startH;
+}
+start = crop(start, minW, minH);
+hide = crop(hide, minW, minH);
+
+// Zero out the lowest two bits, before putting the highest two bits of the hidden image there:
+start = chop2hide(start);
+
+print("Hiding image, upper six bits of each pixel color:");
+print(start);
+print("Hidden image, upper two bits of each pixel color:");
+print(hide);
+
+// Overwrite the lowest two bits of each pixel by the upper two bits and zero the upper six:
+hide = shift(hide);
+
+var image1plus2 = combine(start,hide);
+print("Combined images:");
+print(image1plus2);
+
+var hidImage = extract(image1plus2);
+print("Extracted hidden image:");
+print(hidImage);
+
+
+var start = new SimpleImage("Drew_Hiding2bit_Message.png");
+print("Drew hiding message:");
+print(start);
+var hidImage = extract(start);
+print("Extracted hidden image:");
+print(hidImage);

@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.params=dna
+comment0.target=edu.duke.StorageResource\ findProtein(java.lang.String)
+comment1.params=
+comment1.target=void\ testingAllGene()
+comment1.text=\ public\ int\ findStopIndex(String\ dna,\ int\ index){\r\n\ \ \ \ \r\n\ \ \ \ \ \ \ \ \ int\ stop1\ \=\ dna.indexOf("tga",\ index);\r\n\ \ \ \ \ \ \ \ \ \ \ if\ (stop1\ \=\=\ -1\ ||\ (stop1-index)\ %\ 3\ \!\=\ 0){\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ stop1\ \=\ dna.length();\r\n\ \ \ \ \ \ \ \ \ \ \ }\r\n\ \ \ \ \ \ \ \ \ int\ stop2\ \=\ dna.indexOf("taa",\ index);\r\n\ \ \ \ \ \ \ \ \ if\ (stop2\ \=\=\ -1\ ||\ (stop2-index)\ %\ 3\ \!\=\ 0){\r\n\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ stop2\ \=\ dna.length();\r\n\ \ \ \ \ \ \ \ \ \ \ }\r\n\ \ \ \ \ \ \ \ \ int\ stop3\ \=\ dna.indexOf("tag",\ index);\r\n\ \ \ \ \ \ \ \ \ if\ (stop3\ \=\=\ -1\ ||\ (stop3-index)\ %\ 3\ \!\=\ 0){\r\n\ \ \ \ \ \ \ \ \ \ \ \ stop3\ \=\ dna.length();\r\n\ \ \ \ \ \ \ \ \ \ }\r\n\ \ \ \ \ \ \ \ \ int\ stop\=Math.min(stop1,\ Math.min(stop2,stop3));\r\n\ \ \ \ \ \ \ \ \ //System.out.println(stop);\r\n\ \ \ \ \ \ \ \ \ return\ stop;\r\n\ \ \ \ \r\n}
+comment2.params=dna
+comment2.target=float\ findCGRatio(java.lang.String)
+numComments=3

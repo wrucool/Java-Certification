@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=
+comment0.target=characterPlay()
+comment1.params=
+comment1.target=void\ findAllCharacter()
+comment2.params=name
+comment2.target=void\ update(java.lang.String)
+comment3.params=
+comment3.target=void\ tester()
+comment4.params=
+comment4.target=int\ findMax()
+comment5.params=num1\ num2
+comment5.target=void\ characterWithNumPart(int,\ int)
+numComments=6

@@ -1,0 +1,27 @@
+// write your code here
+function expixel(exp,bits){
+    var value = (exp-Math.floor(exp/bits)*bits)*bits;
+    return value;
+} 
+function extract(image,bits)
+{
+  var eximage = new SimpleImage(image.getWidth(),image.getHeight());
+
+
+    for(var ip of image.values())
+    {
+        ip.setRed(expixel(ip.getRed(),bits));
+        ip.setGreen(expixel(ip.getGreen(),bits));
+        ip.setBlue(expixel(ip.getBlue(),bits));
+    }
+    return image;
+} 
+
+var exp=78;
+var bits=16;
+var value=expixel(exp,bits);
+print(value);
+var myimage=new SimpleImage("Cat.png");
+print(myimage);
+var hidimage=extract(myimage,bits);
+print (hidimage);

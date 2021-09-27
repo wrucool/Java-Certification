@@ -1,0 +1,42 @@
+// border frame using a function
+function setColor(px)
+{
+    px.setRed(130+Math.random()*80);
+    px.setGreen(50+Math.random()*45);
+    px.setBlue(30+Math.random()*70);
+
+    return px;
+}
+var image = new SimpleImage("fall.jpg");
+var wth=image.getWidth();
+var ht=image.getHeight();
+var newimg=new SimpleImage(wth,ht);
+
+ for (var pixel of image.values()) 
+ {
+    var x = pixel.getX();
+    var y = pixel.getY();
+   var pout=newimg.getPixel(x,y);
+  
+    if (x < 15 || y<15 || x>=(wth-15) || y>=(ht-15))
+    {
+        pout = setColor(pout);
+        
+    } 
+    
+   else if ((x+y)<80 || (x+ht-y)<80 ||(y-x+wth)<80 ||(ht-y-x+wth)<80)
+    {
+        pout = setColor(pout);
+        
+    } 
+
+  else 
+  {
+    pout.setRed(pixel.getRed()+Math.random()*80);
+    pout.setGreen(pixel.getGreen()+Math.random()*45);
+    pout.setBlue(pixel.getBlue()+Math.random()*70);
+  }
+   
+}     
+
+print(newimg);

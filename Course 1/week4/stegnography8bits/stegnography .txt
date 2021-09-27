@@ -1,0 +1,135 @@
+// steganography
+function crop(image, width, height) {
+
+var n = new SimpleImage(width, height);
+
+for(var p of image.values()) {
+
+var x = p.getX();
+
+var y = p.getY();
+
+if (x < width && y < height){
+
+var np = n.getPixel(x,y);
+
+np.setRed(p.getRed());
+
+np.setBlue(p.getBlue());
+
+np.setGreen(p.getGreen());
+}
+
+}
+return n;
+
+}
+
+
+function pixchange(pixval,bits){
+    var x = Math.floor(pixval/bits) * bits;
+    return x;
+}
+function chop2hide(image,bits){
+    for(var px of image.values()){
+        px.setRed(pixchange(px.getRed(),bits));
+        px.setGreen(pixchange(px.getGreen(),bits));
+        px.setBlue(pixchange(px.getBlue(),bits));
+    }
+    return image;
+}
+function shift(im,bits){
+  var nim = new SimpleImage(im.getWidth(), 
+                            im.getHeight());
+  for(var px of im.values()){
+    var x = px.getX();
+    var y = px.getY();
+    var npx = nim.getPixel(x,y);
+    npx.setRed(Math.floor(px.getRed()/bits));
+    npx.setGreen(Math.floor(px.getGreen()/bits));
+    npx.setBlue(Math.floor(px.getBlue()/bits));
+  }
+  return nim;
+}
+function combine(start,hide)
+{
+  var image=new SimpleImage(start.getWidth(),start.getHeight());
+   for(var pixel of image.values())
+   {
+       var x=pixel.getX();
+       var y=pixel.getY();
+      var mRed = start.getPixel(x,y).getRed() + hide.getPixel(x,y).getRed();
+       var mGreen = start.getPixel(x,y).getGreen() + hide.getPixel(x,y).getGreen();
+        var mBlue = start.getPixel(x,y).getBlue() + hide.getPixel(x,y).getBlue();
+      pixel.setRed(mRed);
+      pixel.setGreen(mGreen);
+      pixel.setBlue(mBlue);
+     
+   }
+   
+   return image;
+}
+function expixel(exp,bits){
+    var value = (exp-Math.floor(exp/bits)*bits)*bits;
+    return value;
+}
+function extract(image,bits)
+{
+  var eximage = new SimpleImage(image.getWidth(),image.getHeight());
+
+
+    for(var ip of image.values())
+    {
+       
+        ip.setRed(expixel(ip.getRed(),bits));
+        ip.setGreen(expixel(ip.getGreen(),bits));
+        ip.setBlue(expixel(ip.getBlue(),bits));
+    }
+       
+    
+    return image;
+} 
+
+
+var start = new SimpleImage("nycity.jpg");
+var hide = new SimpleImage("msgimg.jpg");
+print("original Image");
+print(start);
+print(hide); 
+
+var cropWidth = start.getWidth();
+
+if (hide.getWidth() < cropWidth) {
+
+cropWidth = hide.getWidth();
+
+}
+
+var cropHeight = start.getHeight();
+
+if (hide.getHeight() < cropHeight) {
+
+cropHeight = hide.getHeight();
+
+}
+
+var start = crop(start,cropWidth, cropHeight);
+
+var hide = crop (hide,cropWidth, cropHeight);
+print("croped images");
+print(start);
+
+print(hide);
+
+
+
+var bits=8;
+start = chop2hide(start,bits);
+hide = shift(hide,bits);
+
+var image=combine(start,hide);
+print("combined image");
+print(image);
+var hidimage=extract(image,bits);
+print("extract image");
+print(hidimage);

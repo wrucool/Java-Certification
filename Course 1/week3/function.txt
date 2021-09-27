@@ -1,0 +1,42 @@
+//  write your code here
+function swapRedGreen(pixel) {	
+     var newGreen = pixel.getRed();	
+     var newRed = pixel.getGreen();	
+     pixel.setGreen(newGreen);	
+     pixel.setRed(newRed);	
+     return pixel;
+}
+function moreRed(pixel, amount) {	
+     var r = pixel.getRed() + amount;	
+     if (r > 255)  r = 255;	
+     pixel.setRed(r);	
+     return pixel;
+}
+function pixelOnEdgeDifferentThicknesses (pixel, image, vWidth, hWidth) {	
+     var x = pixel.getX();	
+     var y = pixel.getY();	
+     if (x < vWidth) return true;	
+     if (y < hWidth) return true;	
+     if (x >= image.getWidth() - vWidth) return true;	
+     if (y >= image.getHeight() - hWidth) return true;	
+     return false;
+}
+function setBlack(pixel)
+{
+    pixel.setRed(0);
+    pixel.setBlue(0);
+    pixel.setGreen(0);	
+    return pixel;
+}
+
+var image=new SimpleImage("eastereggs.jpg"); 
+for(var pixel of image.values())
+{
+    if( pixelOnEdgeDifferentThicknesses(pixel,image,10,30))
+    {
+      pixel=setBlack(pixel) ; 
+    }
+   //pixel=swapRedGreen(pixel); 
+   // pixel = moreRed(pixel,100);
+}
+print(image);

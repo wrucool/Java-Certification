@@ -1,0 +1,2 @@
+Just a story about a <color> ,<verb>, <adjective> and <number> ,<timeframe>
+,<animal>, <country> ,fruit=<fruit>, <noun> , <name>
